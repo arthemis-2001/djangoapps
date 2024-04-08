@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+{% block title %}{{room.name}} | {% endblock %}
+{% block content %}
+<div class="p-10 lg:p-20 text-white text-center">
+    <h1 class="text-4xl lg:text-6xl font-semibold">{{room.name}}</h1>
+    <p class="text-xl">{{room.description}}</p>
+</div>
+
+<div class="w-full lg:w-1/4 p-4 lg:mx-auto bg-blue-200 rounded-xl">
+    <div class="chat-messages space-y-5" id="chat-messages">
+        <div class="p-3 text-white bg-blue-800 rounded-xl">
+            <p class="font-semibold">Pinkie Pie</p>
+            <p>Okie-dokie-lokie!</p>
+        </div>
+
+        <div class="p-3 text-white bg-blue-800 rounded-xl">
+            <p class="font-semibold">Applejack</p>
+            <p>Hi sugarcube!</p>
+        </div>
+
+        <div class="p-3 text-white bg-blue-800 rounded-xl">
+            <p class="font-semibold">Rainbow Dash</p>
+            <p>Twenty percent cooler!</p>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

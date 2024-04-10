@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class PortfolioItem(models.Model):
@@ -8,4 +9,9 @@ class PortfolioItem(models.Model):
     url = models.URLField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    
+
+class Comment(models.Model):
+    portfolio_item = models.ForeignKey(PortfolioItem, on_delete=models.CASCADE, related_name = 'comments')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_date = models.DateTimeField(auto_now_add=True)

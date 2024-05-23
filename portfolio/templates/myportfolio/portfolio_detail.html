@@ -3,9 +3,9 @@
 {% block title %}{{ portfolio_item.title }}{% endblock %}
 
 {% block content %}
-<div class="portfolio-detail">
-    <h2>{{ portfolio_item.title }}</h2>
-    <img src="{{ portfolio_item.image.url }}" alt="{{ portfolio_item.title }}" style="max-width: 600px; height: auto;">
+<div class="text-center portfolio-detail">
+    <h2 class="h2">{{ portfolio_item.title }}</h2>
+    <img src="{{ portfolio_item.image.url }}" alt="{{ portfolio_item.title }}" class="mx-auto" style="max-width: 800px; height: auto;">
     <p>{{ portfolio_item.description }}</p>
     <p><a href="{{ portfolio_item.url }}" target="_blank">Visit Project</a></p>
     <div class="portfolio_likes">

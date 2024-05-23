@@ -1,8 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import PortfolioItem
-from .forms import CommentForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from .models import PortfolioItem
+from .forms import CommentForm
 
 # Create your views here.
 def portfolio_list(request):
@@ -36,3 +39,13 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, "registration/register.html", {"form": form})
+
+
+@login_required
+def portfolio_like(request, pk):
+    portfolio_item = get_object_or_404(PortfolioItem, pk=pk)
+    if portfolio_item.likes.filter(id=request.user.id).exists():
+        portfolio_item.likes.remove(request.user)
+    else:
+        portfolio_item.likes.add(request.user)
+    return HttpResponseRedirect(reverse("portfolio_detail", args=[str(pk)]))

@@ -3,13 +3,17 @@
 {% block title %}Portfolio List{% endblock %}
 
 {% block content %}
-    <h2>My Portfolio</h2>
-    <ul>
+    <h2 class="h2">My Portfolio</h2>
+    <div class="row">
         {% for item in items%}
-        <li>
-            <h3><a href = "{%url 'portfolio_detail' item.id%}">{{item.title}}</a></h3>
-        </li>
+        <div class="card" style="width:400px">
+            <img class="card-img-top" src="{{ item.image.url }}" alt="Card image">
+            <div class="card-body">
+                <h4 class="card-title">{{ item.title }}</h4>
+                <a href="{%url 'portfolio_detail' item.id%}" class="btn btn-primary">See Profile</a>
+            </div>
+        </div>
         {%endfor%}
-    </ul>
+    </div>
 
 {% endblock %}

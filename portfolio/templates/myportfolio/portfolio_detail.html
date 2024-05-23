@@ -3,54 +3,62 @@
 {% block title %}{{ portfolio_item.title }}{% endblock %}
 
 {% block content %}
-<div class="text-center portfolio-detail">
-    <h2 class="h2">{{ portfolio_item.title }}</h2>
-    <img src="{{ portfolio_item.image.url }}" alt="{{ portfolio_item.title }}" class="mx-auto" style="max-width: 800px; height: auto;">
-    <p>{{ portfolio_item.description }}</p>
-    <p><a href="{{ portfolio_item.url }}" target="_blank">Visit Project</a></p>
-    <div class="portfolio_likes">
-        <form action="{%url 'portfolio_like' portfolio_item.pk%}" method = "post">
-            {%csrf_token%}
-            {%if user.is_authenticated%}
-            <button type="submit">
-                {%if user in portfolio_item.likes.all%}
-                Unlike
-                {%else%}
-                Like
-                {%endif%}
-            </button>
-            {%else%}
-            <a href ="{% url 'login'%}">Log in to like</a>
-            {%endif%}
-        </form>
-        <p>{{portfolio_item.number_of_likes}} Likes</p>
-
-    </div>
-    <div class="portfolio-comments">
-        <h3>Comments</h3>
-        {% for comment in portfolio_item.comments.all %}
-            <div class="comment">
-                <p><strong>{{ comment.author.username }}</strong> on {{ comment.created_date }}</p>
-                <p>{{ comment.text }}</p>
-            </div>
-        {% empty %}
-            <p>No comments yet. Be the first to comment!</p>
-        {% endfor %}
-
-        {%if user.is_authenticated%}
-        <div class = "add-comment">
-            <h3>Add a Comment</h3>
-            <form method = "post">
-                {%csrf_token%}
-                {{form.as_p}}
-                <button type = "submit">Post Comment</button>
-            </form>
+<div class="container my-5"> <!-- Container for overall spacing -->
+    <div class="row g-5"> <!-- Row for layout structure -->
+        <div class="col-lg-6 order-lg-last"> <!-- Image column, moved last on large screens -->
+            <img src="{{ portfolio_item.image.url }}" alt="{{ portfolio_item.title }}" class="img-fluid rounded shadow-lg mb-4" style="max-width: 100%;">
         </div>
-        {%else%}
-        <p><a href = "{%url 'login'%}">Log in</a> to add a comment.</p>
-        {%endif%}
-
-
-    </div>    
+        <div class="col-lg-6"> <!-- Text column -->
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title">{{ portfolio_item.title }}</h2>
+                    <p class="card-text">{{ portfolio_item.description }}</p>
+                    <a href="{{ portfolio_item.url }}" target="_blank" class="btn btn-primary">Visit Project</a>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="small">Likes: {{portfolio_item.number_of_likes}}</span>
+                        {% if user.is_authenticated %}
+                            <form action="{%url 'portfolio_like' portfolio_item.pk%}" method="post">
+                                {%csrf_token%}
+                                {%if user in portfolio_item.likes.all%}
+                                    <button type="submit" class="btn btn-outline-secondary">Unlike</button>
+                                {%else%}
+                                    <button type="submit" class="btn btn-outline-primary">Like</button>
+                                {%endif%}
+                            </form>
+                        {%else%}
+                            <a href="{% url 'login'%}" class="btn btn-link">Log in to like</a>
+                        {%endif%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row g-5 mt-5">
+        <div class="col">
+            <h3>Comments</h3>
+            {% for comment in portfolio_item.comments.all %}
+                <div class="comment mb-3">
+                    <p><strong>{{ comment.author.username }}</strong> on {{ comment.created_date }}</p>
+                    <p>{{ comment.text }}</p>
+                </div>
+            {% empty %}
+                <p>No comments yet. Be the first to comment!</p>
+            {% endfor %}
+            {% if user.is_authenticated %}
+                <div class="add-comment">
+                    <h3>Add a Comment</h3>
+                    <form method="post">
+                        {%csrf_token%}
+                        {{form.as_p}}
+                        <button type="submit" class="btn btn-success">Post Comment</button>
+                    </form>
+                </div>
+            {%else%}
+                <p><a href="{%url 'login'%}" class="btn btn-link">Log in</a> to add a comment.</p>
+            {%endif%}
+        </div>
+    </div>
 </div>
 {% endblock %}
